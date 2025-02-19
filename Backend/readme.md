@@ -141,4 +141,91 @@ POST
         }
     ]
 }
+
+
+
+
+
+```
+
+# /users/profile Endpoint Documentation
+
+## Description
+Endpoint to retrieve the authenticated user's profile information.
+
+## HTTP Method
+GET
+
+## URL
+/users/profile
+
+## Headers
+- **Authorization**: Bearer token required
+
+## Responses
+
+### Success
+- **Status Code:** 200 OK
+- **Body:** Returns a JSON object containing user profile data
+
+### Example Success Response
+```json
+{
+    "success": true,
+    "data": {
+        "id": "60d0fe4f5311236168a109ca",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "createdAt": "2023-01-01T00:00:00.000Z"
+    }
+}
+```
+
+### Error Response
+- **Status Code:** 401 Unauthorized
+```json
+{
+    "success": false,
+    "message": "Not authenticated"
+}
+```
+
+# /users/logout Endpoint Documentation
+
+## Description
+Endpoint to logout the currently authenticated user.
+
+## HTTP Method
+GET
+
+## URL
+/users/logout
+
+## Headers
+- **Authorization**: Bearer token required
+
+## Responses
+
+### Success
+- **Status Code:** 200 OK
+- **Body:** Returns a success message
+
+### Example Success Response
+```json
+{
+    "success": true,
+    "message": "Logged out successfully"
+}
+```
+
+### Error Response
+- **Status Code:** 401 Unauthorized
+```json
+{
+    "success": false,
+    "message": "Not authenticated"
+}
 ```
