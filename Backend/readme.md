@@ -141,11 +141,6 @@ POST
         }
     ]
 }
-
-
-
-
-
 ```
 
 # /users/profile Endpoint Documentation
@@ -230,60 +225,35 @@ GET
 }
 ```
 
+
 # Captain Endpoints Documentation
 
-# /captains/register Endpoint Documentation
+# Captain API Documentation
 
-## Description
-Endpoint to register a new captain. Validates input for personal and vehicle information.
+## POST /captains/register
 
-## HTTP Method
-POST
-
-## URL
-/captains/register
-
-## Request Body
-- **fullname** (object):
-  - **firstname**: string, required, minimum 3 characters
-  - **lastname**: string, optional
-- **email**: string, required, valid email address
-- **password**: string, required, minimum 6 characters
-- **vehicle** (object):
-  - **color**: string, required, minimum 3 characters
-  - **plate**: string, required, minimum 3 characters
-  - **capacity**: number, required, minimum 1
-  - **vehicleType**: string, required, must be one of: ['car', 'motorcycle', 'auto']
-
-### Example Request Body
+### Request Body
 ```json
 {
-  "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
-  },
-  "email": "john.driver@example.com",
-  "password": "secret123",
-  "vehicle": {
-    "color": "black",
-    "plate": "ABC123",
-    "capacity": 4,
-    "vehicleType": "car"
-  }
+    "fullname": {
+        "firstname": "John",    // required, min 3 characters
+        "lastname": "Doe"       // optional
+    },
+    "email": "john@example.com",    // required, valid email format
+    "password": "secret123",        // required, min 6 characters
+    "vehicle": {
+        "color": "black",           // required, min 3 characters
+        "plate": "ABC123",          // required, min 3 characters
+        "capacity": 4,              // required, min 1
+        "vehicleType": "car"        // required, must be: car|motorcycle|auto
+    }
 }
 ```
 
-## Responses
-
-### Success
-- **Status Code:** 201 Created
-- **Body:** Returns a JSON object containing:
-  - **token**: Authentication token
-  - **captain**: New captain object
-
-### Example Success Response
+### Success Response (201 Created)
 ```json
 {
+    "success": true,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "captain": {
         "id": "60d0fe4f5311236168a109ca",
@@ -291,7 +261,40 @@ POST
             "firstname": "John",
             "lastname": "Doe"
         },
-        "email": "john.driver@example.com",
+        "email": "john@example.com",
+        "vehicle": {
+            "color": "black",
+            "plate": "ABC123",
+            "capacity": 4,
+            "vehicleType": "car"
+        },
+        "createdAt": "2023-01-01T00:00:00.000Z"
+    }
+}
+```
+
+## POST /captains/login
+
+### Request Body
+```json
+{
+    "email": "john@example.com",    // required, valid email format
+    "password": "secret123"         // required, min 6 characters
+}
+```
+
+### Success Response (200 OK)
+```json
+{
+    "success": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "captain": {
+        "id": "60d0fe4f5311236168a109ca",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "john@example.com",
         "vehicle": {
             "color": "black",
             "plate": "ABC123",
@@ -302,21 +305,71 @@ POST
 }
 ```
 
-### Validation Error Response
-- **Status Code:** 400 Bad Request
+## GET /captains/profile
+Requires Authentication Token in Authorization Header
+
+### Success Response (200 OK)
 ```json
 {
+    "success": true,
+    "captain": {
+        "id": "60d0fe4f5311236168a109ca",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "john@example.com",
+        "vehicle": {
+            "color": "black",
+            "plate": "ABC123",
+            "capacity": 4,
+            "vehicleType": "car"
+        },
+        "createdAt": "2023-01-01T00:00:00.000Z",
+        "isAvailable": true,        // captain's current availability status
+        "currentLocation": {        // captain's last known location
+            "latitude": 12.9716,
+            "longitude": 77.5946
+        }
+    }
+}
+```
+
+## GET /captains/logout
+Requires Authentication Token in Authorization Header
+
+### Success Response (200 OK)
+```json
+{
+    "success": true,
+    "message": "Captain logged out successfully"
+}
+```
+
+### Error Responses (Common to all endpoints)
+```json
+{
+    "success": false,
     "errors": [
         {
-            "msg": "First name must be atleast 3 characters long",
-            "param": "fullname.firstname",
-            "location": "body"
-        },
-        {
-            "msg": "Invalid vehicle type",
-            "param": "vehicle.vehicleType",
+            "msg": "Invalid email format",        // validation error
+            "param": "email",
             "location": "body"
         }
     ]
+}
+```
+
+```json
+{
+    "success": false,
+    "message": "Unauthorized access"    // authentication error (401)
+}
+```
+
+```json
+{
+    "success": false,
+    "message": "Internal server error"  // server error (500)
 }
 ```
