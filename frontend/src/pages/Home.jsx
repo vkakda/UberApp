@@ -1,17 +1,222 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { useState, useRef } from 'react';
+import {useGSAP} from '@gsap/react'
+import gsap from 'gsap';
+import 'remixicon/fonts/remixicon.css'
+import LocationSearchPanel from '../components/LocationSearchPanel';
+import VehiclePanel from '../components/VehiclePanel';
+import ConfirmRide from '../components/ConfirmRide';
+import LookingForDriver from '../components/LookingForDriver';
+import WaitingForDriver from '../components/WaitingForDriver';
 
 const Home = () => {
+  const [pickup, setPickup] = useState('')
+  const [destination, setDestination] = useState('')
+  const [panelOpen, setPanelOpen] = useState(false)
+  const vehiclePanelRef = useRef(null)
+  const confirmRidePanelRef = useRef(null)
+  const vehicleFoundRef = useRef(null)
+  const waitingForDriverRef = useRef(null)
+
+
+  const panelRef = useRef(null)
+  const panelCloseRef = useRef(null)
+  const [vehiclePanel, setVehiclePanel] = useState(false)
+const [confirmRidePanel, setConfirmRidePanel] = useState(false)
+const [vehicleFound, setVehicleFound ] = useState(false)
+const [waitingForDriver, setWaitingForDriver ] = useState(false)
+
+
+
+    const submitHandler = (e) => {
+    e.preventDefault();
+    }
+
+    useGSAP(function() {
+      if(panelOpen){
+        gsap.to(panelRef.current, {
+          height:'70%',
+          padding:24
+          // opacity:1
+        })
+        gsap.to(panelCloseRef.current, {
+          opacity:1
+        })
+      } else{
+        gsap.to(panelRef.current, {
+          height:'0%',
+          padding:0
+          // opacity:0
+        })
+        gsap.to(panelCloseRef.current, {
+          opacity:0
+        })
+      }
+
+    },[panelOpen])
+
+    useGSAP(function(){
+      if(vehiclePanel){
+      gsap.to(vehiclePanelRef.current,{
+        transform: 'translateY(0)'
+      })
+    }else {
+      gsap.to(vehiclePanelRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+    },[vehiclePanel])
+
+    useGSAP(function() {
+      if(panelOpen){
+        gsap.to(panelRef.current, {
+          height:'70%',
+          padding:24
+          // opacity:1
+        })
+        gsap.to(panelCloseRef.current, {
+          opacity:1
+        })
+      } else{
+        gsap.to(panelRef.current, {
+          height:'0%',
+          padding:0
+          // opacity:0
+        })
+        gsap.to(panelCloseRef.current, {
+          opacity:0
+        })
+      }
+
+    },[panelOpen])
+
+    useGSAP(function(){
+      if(confirmRidePanel){
+      gsap.to(confirmRidePanelRef.current,{
+        transform: 'translateY(0)'
+      })
+    }else {
+      gsap.to(confirmRidePanelRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+    },[confirmRidePanel])
+
+    useGSAP(function(){
+      if(vehicleFound){
+      gsap.to(vehicleFoundRef.current,{
+        transform: 'translateY(0)'
+      })
+    }else {
+      gsap.to(vehicleFoundRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+    },[vehicleFound])
+
+    useGSAP(function(){
+      if(waitingForDriver){
+      gsap.to(waitingForDriverRef.current,{
+        transform: 'translateY(0)'
+      })
+    }else {
+      gsap.to(waitingForDriverRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+    },[waitingForDriver])
+
+
   return (
-  <div>
-    <div className="bg-cover bg-center bg-[url(https://plus.unsplash.com/premium_photo-1731842686156-74895c29a87b?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] h-screen pt-8 flex justify-between flex-col w-full bg-red-400">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="Uber Logo" className="w-16 ml-8" />
-      <div className="bg-white pb-7 py-4 px-4 ">
-        <h2 className="text-3xl font-bold">Get Started with Uber</h2>
-        <Link to="/user-login                           " className=" flex items-center justify-center w-full bg-black text-white py-3 rounded mt-5">continue</Link>
+    <div className='relative h-screen overflow-hidden'>
+      {/* above screen of the window */}
+      <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="uberlogo" />
+
+      {/* Map here */}
+      <div className='h-screen w-screen'>
+        <img className='h-full w-full object-cover' src='https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif' alt='uber-map' />
       </div>
+
+
+{/* below section for trip book */}
+      <div className=' flex flex-col justify-end h-screen top-0 absolute w-full'>
+        <div className='h-[30%] relative p-5 bg-white'>
+
+          <h5 
+          ref={panelCloseRef}
+          onClick={() => {
+            setPanelOpen(false)
+          }}
+          className='absolute opacity-0 top-6 right-6 text-2xl'>
+          <i className="ri-arrow-down-wide-line"></i>
+          </h5>
+          <h4 className='text-2xl font-semibold'>Find a trip</h4>
+
+        <form onSubmit={(e) => {
+          submitHandler(e)
+        }}
+        >
+         
+          <div className="line absolute h-12 w-1 top-[45%] left-10 bg-gray-900 rounded-full"></div>
+
+          <input 
+          onClick={() =>{
+            setPanelOpen(true)
+          }}
+          value={pickup}
+          onChange={(e) => {
+            setPickup(e.target.value)
+          }}
+          className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5' 
+          type="text" 
+          placeholder='Add a pick-up location' 
+          />
+
+          <input 
+          onClick={() =>{
+            setPanelOpen(true)
+          }}
+          value={destination}
+          onChange={(e) => {
+            setDestination(e.target.value)
+          }}
+          className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3' 
+          type="text" 
+          placeholder='Enter your destination' />
+
+        </form>
+        </div>
+
+
+        {/* Location search suggestion panel */}
+        <div 
+        ref={panelRef}
+        className='h-0 bg-white '>
+          <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
+
+        </div>
+
+      </div>
+
+      {/* vehicle selection opening */}
+      <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
+       <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel}/>
+
+          </div>
+      <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white'>
+        <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+          </div>
+      <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white'>
+        <LookingForDriver setVehicleFound={setVehicleFound}/>
+          </div>
+      <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0  px-3 py-6 pt-12 bg-white'>
+        <WaitingForDriver waitingForDriver={waitingForDriver}/>
+          </div>
+
+
+
     </div>
-  </div>
-)}
+  )
+}
 
 export default Home;
