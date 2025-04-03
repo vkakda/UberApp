@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 export const CaptainDataContext = createContext();
 
@@ -6,6 +6,8 @@ export const CaptainDataContext = createContext();
 
 const CaptainContext = ({ children }) => {
     const [captain, setCaptain] = useState(null);
+
+
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null)
 

@@ -373,3 +373,371 @@ Requires Authentication Token in Authorization Header
     "message": "Internal server error"  // server error (500)
 }
 ```
+
+
+# /maps/get-coordinates Endpoint Documentation
+
+## Description
+The `/maps/get-coordinates` endpoint is used to get the coordinates (latitude and longitude) of a given address. This endpoint requires the user to be authenticated.
+
+## HTTP Method
+GET
+
+## URL
+/maps/get-coordinates
+
+## Authentication
+This endpoint requires a Bearer token for authentication. The token should be included in the `Authorization` header of the request.
+
+### Headers
+- **Authorization**: Bearer token required
+
+#### Example Header
+```
+Authorization: Bearer <your_token_here>
+```
+
+## Query Parameters
+- **address**: string, required, minimum 3 characters.
+
+### Example Query Parameters
+```
+/maps/get-coordinates?address=562/11-A
+```
+
+## Responses
+
+### Success
+- **Status Code:** 200 OK  
+- **Body:** Returns a JSON object containing the coordinates of the address.
+
+#### Example Success Response
+```json
+{
+    "ltd": 12.9716,
+    "lng": 77.5946
+}
+```
+
+### Validation Error
+- **Status Code:** 400 Bad Request  
+- **Body:** Returns a JSON object with an `errors` array describing validation issues.
+
+#### Example Validation Error Response
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid address",
+            "param": "address",
+            "location": "query"
+        }
+    ]
+}
+```
+
+### Unauthorized Error
+- **Status Code:** 401 Unauthorized  
+- **Body:** Returns a JSON object indicating that the user is not authenticated.
+
+#### Example Unauthorized Error Response
+```json
+{
+    "success": false,
+    "message": "Not authenticated"
+}
+```
+
+### Internal Server Error
+- **Status Code:** 500 Internal Server Error  
+- **Body:** Returns a JSON object indicating that an internal server error occurred.
+
+#### Example Internal Server Error Response
+```json
+{
+    "success": false,
+    "message": "Internal server error"
+}
+```
+
+# /maps/get-distance-time Endpoint Documentation
+
+## Description
+The `/maps/get-distance-time` endpoint is used to get the distance and time between two locations. This endpoint requires the user to be authenticated.
+
+## HTTP Method
+GET
+
+## URL
+/maps/get-distance-time
+
+## Authentication
+This endpoint requires a Bearer token for authentication. The token should be included in the `Authorization` header of the request.
+
+### Headers
+- **Authorization**: Bearer token required
+
+#### Example Header
+```
+Authorization: Bearer <your_token_here>
+```
+
+## Query Parameters
+- **origin**: string, required, minimum 3 characters.
+- **destination**: string, required, minimum 3 characters.
+
+### Example Query Parameters
+```
+/maps/get-distance-time?origin=562/11-A&destination=Kochipukur
+```
+
+## Responses
+
+### Success
+- **Status Code:** 200 OK  
+- **Body:** Returns a JSON object containing the distance and time between the origin and destination.
+
+#### Example Success Response
+```json
+{
+    "distance": {
+        "text": "4.5 km",
+        "value": 4500
+    },
+    "duration": {
+        "text": "15 mins",
+        "value": 900
+    }
+}
+```
+
+### Validation Error
+- **Status Code:** 400 Bad Request  
+- **Body:** Returns a JSON object with an `errors` array describing validation issues.
+
+#### Example Validation Error Response
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid origin address",
+            "param": "origin",
+            "location": "query"
+        },
+        {
+            "msg": "Invalid destination address",
+            "param": "destination",
+            "location": "query"
+        }
+    ]
+}
+```
+
+### Unauthorized Error
+- **Status Code:** 401 Unauthorized  
+- **Body:** Returns a JSON object indicating that the user is not authenticated.
+
+#### Example Unauthorized Error Response
+```json
+{
+    "success": false,
+    "message": "Not authenticated"
+}
+```
+
+### Internal Server Error
+- **Status Code:** 500 Internal Server Error  
+- **Body:** Returns a JSON object indicating that an internal server error occurred.
+
+#### Example Internal Server Error Response
+```json
+{
+    "success": false,
+    "message": "Internal server error"
+}
+```
+
+# /maps/get-suggestions Endpoint Documentation
+
+## Description
+The `/maps/get-suggestions` endpoint is used to get autocomplete suggestions for a given input. This endpoint requires the user to be authenticated.
+
+## HTTP Method
+GET
+
+## URL
+/maps/get-suggestions
+
+## Authentication
+This endpoint requires a Bearer token for authentication. The token should be included in the `Authorization` header of the request.
+
+### Headers
+- **Authorization**: Bearer token required
+
+#### Example Header
+```
+Authorization: Bearer <your_token_here>
+```
+
+## Query Parameters
+- **input**: string, required, minimum 3 characters.
+
+### Example Query Parameters
+```
+/maps/get-suggestions?input=Kochi
+```
+
+## Responses
+
+### Success
+- **Status Code:** 200 OK  
+- **Body:** Returns a JSON object containing the autocomplete suggestions.
+
+#### Example Success Response
+```json
+[
+    {
+        "description": "Kochi, Kerala, India",
+        "place_id": "ChIJL_P_CXMEDTkRw0ZdG-0GVvw"
+    },
+    {
+        "description": "Kochi, Japan",
+        "place_id": "ChIJL_P_CXMEDTkRw0ZdG-0GVvw"
+    }
+]
+```
+
+### Validation Error
+- **Status Code:** 400 Bad Request  
+- **Body:** Returns a JSON object with an `errors` array describing validation issues.
+
+#### Example Validation Error Response
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid input",
+            "param": "input",
+            "location": "query"
+        }
+    ]
+}
+```
+
+### Unauthorized Error
+- **Status Code:** 401 Unauthorized  
+- **Body:** Returns a JSON object indicating that the user is not authenticated.
+
+#### Example Unauthorized Error Response
+```json
+{
+    "success": false,
+    "message": "Not authenticated"
+}
+```
+
+### Internal Server Error
+- **Status Code:** 500 Internal Server Error  
+- **Body:** Returns a JSON object indicating that an internal server error occurred.
+
+#### Example Internal Server Error Response
+```json
+{
+    "success": false,
+    "message": "Internal server error"
+}
+```
+
+
+
+# /rides/get-fare Endpoint Documentation
+
+## Description
+The `/rides/get-fare` endpoint is used to calculate the fare for a ride based on the provided pickup and destination locations. This endpoint requires the user to be authenticated.
+
+## HTTP Method
+GET
+
+## URL
+/rides/get-fare
+
+## Authentication
+This endpoint requires a Bearer token for authentication. The token should be included in the `Authorization` header of the request.
+
+### Headers
+- **Authorization**: Bearer token required
+
+#### Example Header
+```
+Authorization: Bearer <your_token_here>
+```
+
+## Query Parameters
+- **pickup**: string, required, minimum 3 characters.
+- **destination**: string, required, minimum 3 characters.
+
+### Example Query Parameters
+```
+/rides/get-fare?pickup=562/11-A&destination=Kochipukur
+```
+
+## Responses
+
+### Success
+- **Status Code:** 200 OK  
+- **Body:** Returns a JSON object containing the fare for different vehicle types.
+
+#### Example Success Response
+```json
+{
+    "auto": 109.30,
+    "car": 193.30,
+    "moto": 65.17
+}
+```
+
+### Validation Error
+- **Status Code:** 400 Bad Request  
+- **Body:** Returns a JSON object with an `errors` array describing validation issues.
+
+#### Example Validation Error Response
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid pickup address",
+            "param": "pickup",
+            "location": "query"
+        },
+        {
+            "msg": "Invalid destination address",
+            "param": "destination",
+            "location": "query"
+        }
+    ]
+}
+```
+
+### Unauthorized Error
+- **Status Code:** 401 Unauthorized  
+- **Body:** Returns a JSON object indicating that the user is not authenticated.
+
+#### Example Unauthorized Error Response
+```json
+{
+    "success": false,
+    "message": "Not authenticated"
+}
+```
+
+### Internal Server Error
+- **Status Code:** 500 Internal Server Error  
+- **Body:** Returns a JSON object indicating that an internal server error occurred.
+
+#### Example Internal Server Error Response
+```json
+{
+    "success": false,
+    "message": "Internal server error"
+}
+``` 
