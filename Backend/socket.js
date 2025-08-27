@@ -44,7 +44,6 @@ function initializeSocket(server) {
                 }
             });
         });
-        console.log(`Updating location for captain ${userId}:`, location);
 
         socket.on('disconnect', () => {
             console.log(`Client disconnected: ${socket.id}`);
