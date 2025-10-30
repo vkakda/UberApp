@@ -11,7 +11,7 @@ const Riding = () => {
       <div className="h-1/2">
         <img
           className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
+          src="https://www.mapmyindia.com/api/move-api/images/card2.gif"
           alt="uber-map"
         />
       </div>

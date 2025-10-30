@@ -15,7 +15,7 @@ const ConfirmRide = (props) => {
       <div className="flex gap-2 justify-between items-center flex-col">
         <img
           className="h-20"
-          src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_538,w_956/v1688398986/assets/90/34c200-ce29-49f1-bf35-e9d250e8217a/original/UberX.png"
+          src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
         />
       
       <div className="w-full mt-5">
